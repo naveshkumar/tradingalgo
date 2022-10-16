@@ -1,0 +1,28 @@
+R shiny begginers guide and flow of the app
+
+CHAPTER 1 : THE BASICS
+
+1.1 ui.R
+
+the R file that contains your UI elements. What is meant by UI elements? : these are the input UX elements
+that the end user will end up interacting with.
+
+ANY UI element has the first parameter called the "inputid". This "inputid" is the name of the component and
+this is the variable that will store the user's response to the change in the ui and store the output in an
+object that is names as "inputid"
+
+1.2 server.r
+
+this is the r file where the "actual work" happens. the UI.R has got all the variables that it will send to the server.R. Server.R can itself call upon funcitons stored in a different R file but in the same working directory.
+
+SEDNING STUFF BACK TO UI
+
+the server app will create output$<object name> so as to send it back to the UI.R. The UI.R will expecte the <output object> to be "rendered" properly : however it is rendered (plot as renderplot, table as renderimage  and so on)
+
+functions called from outside server.r need to specify where to call the function from
+
+source("the_file_that_contains_the_function.R") is to be at the top of the the server.R so that you can recall where you are getting your functions from
+
+
+
+
