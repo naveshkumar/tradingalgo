@@ -12,3 +12,7 @@ plusminusmul <- function(a,b){
   mul <- a*b
   return(list(c,d,mul))
 }
+
+curveplotter <- function(exponent){
+  curve(x^exponent,from = -10,to = 10)
+}
