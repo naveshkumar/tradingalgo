@@ -13,6 +13,6 @@ plusminusmul <- function(a,b){
   return(list(c,d,mul))
 }
 
-curveplotter <- function(exponent){
-  curve(x^exponent,from = -10,to = 10)
+curveplotter <- function(exponent,minofcurve,maxofcurve){
+  curve(x^exponent,from = minofcurve,to = maxofcurve)
 }

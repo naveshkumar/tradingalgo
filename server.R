@@ -7,7 +7,7 @@ function(input,output,session){
   
   output$curveplotter_output <- renderPlot({
     
-    curveplotter(input$exponent)
+    curveplotter(input$exponent,input$minofcurve,input$maxofcurve)
     
   })
   

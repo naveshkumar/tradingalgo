@@ -25,4 +25,11 @@ source("the_file_that_contains_the_function.R") is to be at the top of the the s
 
 
 
+1.3 FUNCTION FILES: this is not a part of the architecture but is prudent to have different files
+
+Modus Operandi
+
+case 1 : change in source function : just needs changes in the function source file
+case 2 : change to UI : change in UI, then in Server, finally create new functions or change in the existing
+
 
