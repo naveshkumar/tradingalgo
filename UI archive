@@ -1,0 +1,207 @@
+#ARCHIVE FOR THE UI LEARNING
+
+18 oct 2022
+
+1. this is the page for the curveplotter
+
+fluidPage(
+  
+  titlePanel("Curve plotter"),
+  
+  sliderInput("exponent",
+              "choose an exponent",
+              min = 1,
+              max = 5,
+              value = 1),
+  
+  sliderInput("minofcurve",
+              "MINIMUM",
+              min = -5,
+              max = -1,
+              value = -5),
+  
+  sliderInput("maxofcurve",
+              "MAXIMUM",
+              min = 1,
+              max = 5,
+              value = 5),
+  
+  plotOutput("curveplotter_output")
+  
+)
+
+server side
+function(input,output,session){
+  output$curveplotter_output <- renderPlot({
+    
+    curveplotter(input$exponent,input$minofcurve,input$maxofcurve)
+    
+  })
+  }
+
+1. this is the ui code to understand the row layout but i need to delete this if i find a better explanation
+
+ui <- fluidPage(
+  titlePanel("trading app"),
+  
+  fluidRow(
+    column(
+      2,
+           "side bar"
+           ),
+    column(
+      10,
+           "main"
+           )
+  )
+  
+)
+
+3. hadley wikham book chapter 1 q 1 
+
+ui <- fluidPage(
+  
+  textInput('nameofuser',"ENTER YOUR NAME"),
+  numericInput('ageofuser', "How old are you?", value = 30),
+  
+  textOutput("greeting")
+  
+  
+)
+
+serverside
+
+function(input,output,session){
+  
+  output$greeting <- renderText({
+    
+    paste0("Hello ", input$nameofuser, 'who is ', input$ageofuser, ' years old')
+    
+  })
+  
+
+  
+}
+
+
+4. CHAPTER 2 
+
+
+namelist <- c("aaa","bbb","ccc","ddd")
+selectmany <- c("q","w","e","r","r")
+
+ui <- fluidPage(
+  
+  column(5,
+         
+         sliderInput('num1ForSlider',"number 1 ",min = 1,max = 50,value = 30),
+         sliderInput('num2ForSlider',"number 2 ",min = 1,max = 50,value = 30),
+         numericInput('num1fornum',"number 3",value = 30),
+         selectInput('num1fordorpdown',"number 4",choices = c(1,2,3,4,5)),
+         textOutput('finalanswer')
+         
+         ),
+  
+  column(5,
+         
+         radioButtons('radiobtnval1'," selec one of these options ",choices = namelist,inline = TRUE),
+         textOutput('mulchoOutpout'),
+         checkboxGroupInput('chkbx',"select many from here",choices = selectmany,inline = TRUE),
+         textOutput('selectmanyout')
+         ),
+  
+ 
+  plotOutput("curveplotter_output"),
+  
+  
+)
+
+SERVERSIDE
+function(input,output,session){
+  
+  #calculation side function
+  
+  output$finalanswer<- renderText({
+    
+    fivemultiplier(input$num1ForSlider,input$num2ForSlider)
+    
+  })
+  
+  #text side of function
+  
+  output$curveplotter_output <- renderPlot({
+    
+    exponent_input <- as.numeric(input$num1fordorpdown)
+    min_of_curve <- input$num1ForSlider*(-1)
+    curveplotter(exponent =  exponent_input,
+                 minofcurve =  min_of_curve,
+                 maxofcurve =  input$num2ForSlider)
+    
+  })
+  
+  output$mulchoOutpout <- renderText({
+    
+    mulchofunc(input$radiobtnval1)
+    
+  })
+  
+  output$selectmanyout <- renderText({
+    
+    
+    
+  })
+  
+}
+
+
+DEEPER UNDERSTANDING OF INPUT BOXES AND OBSERVER EVENTS
+
+ui
+
+
+ui <- fluidPage(
+  textInput("name",label = "What's your name?", value = NULL,placeholder = "enter name or number"),
+  textOutput("greeting")
+)
+
+SERVERSIDE
+
+server <- function(input, output, session) {
+  string <- reactive(namepaster(input$name))
+  
+  output$greeting <- renderText(string())
+  
+  observeEvent(input$name, {
+    (somecalculation(input$name))
+  })
+  
+}
+
+FUNCTIONSIDE
+
+somecalculation <- function(n=NA){
+
+  n_out <- tryCatch(
+    expr = {
+      if (n=="") {
+        message("waiting for a name or number....")
+        return()
+      }else{
+        message("this is a number = ", as.numeric(n))
+      }
+      
+    },
+    error = function(e){
+      0
+      message("this is not a number")
+    },
+    warning = function(w){
+      message("this is not a number but a string = ", n)
+    },
+    finally = {
+      message("somecalculation complete...")
+    }
+  )
+  return(n_out)
+}
+

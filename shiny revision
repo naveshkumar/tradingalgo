@@ -32,4 +32,121 @@ Modus Operandi
 case 1 : change in source function : just needs changes in the function source file
 case 2 : change to UI : change in UI, then in Server, finally create new functions or change in the existing
 
+1.4 DECLARING OF THE VARIABLES
+Origin of all UI elements: 1. user uses to input parameters, 2. User sees as a reaction to the input are done in the UI file. 
 
+FEEL THE FLOW OF VARIABLES >>>>>>>>>>> DURING THE DEV OF THE APP
+
+ DECLARE THE VARIABLE IN THE UI BOTH INPUT AND OUTPUT
+        USE THE ui VARIABLE IN server FILE TO INTERACT WITH FUNCTIONS
+              WRITE THE FUNCTIONS IN THE function file
+            
+FEEL THE FLOW OF IDEA DEVELOPMENT >>>>>>>>>> DURING PRODUCT DESIGN
+
+  CONSTRUCT THE IDEA OF WHAT INPUTS AND OUTPUTS WILL BE NEEDED
+      IDEATE ON PRODUCT DESIGN OF INPUT AND OUTPUT
+          DECLARE THE INPUT VARIABLES THAT WILL BE USED IN THE FUNCTION
+            WRITE THE INPUT DESIGN IN ui
+              WRITE THE FUNCTION CALL WITH ALL THE VARIABLES TO BE PASSED IN server
+                  WRITE THE FUNCTION IN THE FUNCTION FILE
+                  
+
+1.5 INPUT OUTPUT PARADIGM
+
+FRONT END : where input output variables are declared
+1. declare the input variables in the form of inputid for everywidget
+2. declare the output variable in the form of name of the output function
+
+ui <- fluidpage(
+  
+  inputwidget('widgetnamewhichtakestheinput',...), #INPUT IN SINGLE QUOTES
+  someoutputfunction("nameoftheoutputvariablethatserverreturns") #OUTPUT ALWAYS IN DOUBLE QUOTES
+
+)
+
+BACKEND : serverside : where input from front end is recieved and output as declared in front end is sent back
+
+function(input,output,sesssion){
+  
+ output$nameoftheoutputvariablethatserverreturns   <- function_written_in_functionfile(widgetnamewhichtakestheinput)
+
+}
+
+NOTE:
+
+when processing an input outside a render function that follows the reactive expression as below
+
+input$inputfromUI 
+> 
+REACTIVE_FUNCTION <- reactive(some expression with input$inputfromUI) 
+> 
+output$UIoutput <- renderfunction(  REACTIVE_FUNCTION()  ) #always call the reactive function as a function
+
+FUNCTION FILES
+
+function side
+
+function_written_in_functionfile <- function(widgetnamewhichtakestheinput){
+  
+  some R code
+  RETURN(theoutputvariablethatserverreturns)
+
+}
+
+
+1.6 REACTIVE 
+
+reactive is the shiny function that creates the reactive paradigm in R
+
+server side the below happens
+
+datarefresh <- reactive({
+                          some_reactive_element_from_ui <- doing_something_reactive 
+                          #or not doing anything but just being called
+                                            
+                          upon_reactive_action_create_this <- some_function(input$UI)
+
+                         })
+                      
+output$output_in_UI <- renderfunction(
+                                      { 
+                                      function_for_render( datarefresh() ) #reactive creates a function
+                                      }
+                                     )
+                                     
+                                     
+1.7 OBSERVERS
+
+
+
+2. EXCEPTION HANDELING
+
+tryCatch has a slightly complex syntax structure. However, once we understand the 4 parts which constitute a complete tryCatch call as shown below, it becomes easy to remember:
+
+expr: [Required] R code(s) to be evaluated
+
+error : [Optional] What should run if an error occured while evaluating the codes in expr
+
+warning : [Optional] What should run if a warning occured while evaluating the codes in expr
+
+finally : [Optional] What should run just before quitting the tryCatch call, irrespective of if expr ran successfully, with an error, or with a warning
+
+tryCatch(
+    expr = {
+        # Your code...
+        # goes here...
+        # ...
+    },
+    error = function(e){ 
+        # (Optional)
+        # Do this if an error is caught...
+    },
+    warning = function(w){
+        # (Optional)
+        # Do this if an warning is caught...
+    },
+    finally = {
+        # (Optional)
+        # Do this at the end before quitting the tryCatch structure...
+    }
+)
