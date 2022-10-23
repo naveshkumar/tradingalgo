@@ -4,12 +4,24 @@
 source("functions_for_shiny.R")
 
 server <- function(input, output, session) {
-  string <- reactive(namepaster(input$name))
   
-  output$greeting <- renderText(string())
+  summarystring <- reactive(namepaster(input$summaryinputtxt))
+  output$summaryoutput <- renderText(summarystring())
+  observeEvent(
+    input$summaryinputtxt,
+    {
+      somecalculation(input$summaryinputtxt)
+    }
+  )
   
-  observeEvent(input$name, {
-    (somecalculation(input$name))
-  })
+  datastring <- reactive(namepaster(input$datainputtxt))
+  output$dataoutput <- renderText(datastring())
+  observeEvent(
+    input$datainputtxt,
+    {
+      somecalculation(input$datainputtxt)
+    }
+  )
+  
   
 }

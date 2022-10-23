@@ -96,7 +96,9 @@ function_written_in_functionfile <- function(widgetnamewhichtakestheinput){
 
 1.6 REACTIVE 
 
-reactive is the shiny function that creates the reactive paradigm in R
+reactive() is the shiny function that creates the FUNCTION which will REACTIVELY hold the input in R
+
+if you are expecting the input to change reactively by the user then keep that in reactive and call it in the render function as a FUNCTION
 
 server side the below happens
 
@@ -117,6 +119,11 @@ output$output_in_UI <- renderfunction(
                                      
 1.7 OBSERVERS
 
+These are the reactive elements that DO NOT INTERACT WITH THE USER THOUGH RENDER
+
+Refer to OBSERVER EVENT EXAMPLE in shiny revision to feel the below
+
+you want to react the app outside the UX to get some things done SILENTLY in the background then use this
 
 
 2. EXCEPTION HANDELING
